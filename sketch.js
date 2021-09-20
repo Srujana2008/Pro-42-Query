@@ -8,9 +8,9 @@ var bubble;
 
 function preload(){ 
   gunImg = loadImage("gun1.png") 
-  blastImg = loadImage("blast.png") 
+  blastImg = loadAnimation("blast.png") 
   bulletImg = loadImage("bullet1.png") 
-  blueBubbleImg = loadImage("waterBubble.png") 
+  blueBubbleImg = loadAnimation("waterBubble.png") 
   redBubbleImg = loadImage("redbubble.png") 
   backBoardImg= loadImage("back.jpg") 
 } 
@@ -67,9 +67,9 @@ function drawBlueBubble(){
   if(frameCount%100===0){
     bubble = createSprite(width+200, random(20, 780),10,10);
     bubble.velocityX = -5;
-    bubble.addImage("bubblue", blueBubbleImg);
-    bubble.addImage("blast", blastImg);
-    bubble.changeImage(bubblue);
+    bubble.addAnimation("bubblue", blueBubbleImg);
+    bubble.addAnimation("blast", blastImg);
+    bubble.changeAnimation(bubblue);
     bubble.scale = 0.08;
     bubble.lifetime = 300;
     blueBubbleGroup.add(bubble);
@@ -91,7 +91,7 @@ function handleBubbleCollision(blueBubbleGroup){
   if(life > 0){
     score = score + 1;
   }
-  bubble.changeImage(blast);
+  bubble.changeAnimation(blast);
   bubble.lifetime = 20;
   blueBubbleGroup.destroyEach();
   bullet.destroy();
