@@ -1,16 +1,16 @@
 var score =0; 
 var gun,bluebubble,redbubble, bullet, backBoard; 
 var gunImg,bubbleImg, bulletImg, blastImg, backBoardImg; 
-var redBubbleGroup, redBubbleGroup, bulletGroup; 
+var redBubbleGroup,blueBubbleGroup,bulletGroup; 
 var life =3; 
 var gameState=1;
 var bubble;
 
 function preload(){ 
   gunImg = loadImage("gun1.png") 
-  blastImg = loadAnimation("blast.png") 
+  blastImg = loadImage("blast.png") 
   bulletImg = loadImage("bullet1.png") 
-  blueBubbleImg = loadAnimation("waterBubble.png") 
+  blueBubbleImg = loadImage("waterBubble.png") 
   redBubbleImg = loadImage("redbubble.png") 
   backBoardImg= loadImage("back.jpg") 
 } 
@@ -23,8 +23,7 @@ function setup() {
   gun.addImage(gunImg);
   gun.scale=0.2; 
   
-  blueBubbleGroup = createGroup(); 
-  redBubbleGroup = createGroup(); 
+
 
   heading = createElement("h1");
   scoreBoard = createElement("h1");
@@ -43,7 +42,9 @@ function draw() {
     //shootBullet(); 
     drawBlueBubble();
     drawRedBubble();
+    if(blueBubbleGroup.collide(bulletGroup)){
     handleBubbleCollision();
+    }
     scoreBoard.html("Score: " +score);
     scoreBoard.style('color:red');
     scoreBoard.position(width-200,20);
@@ -67,9 +68,7 @@ function drawBlueBubble(){
   if(frameCount%100===0){
     bubble = createSprite(width+200, random(20, 780),10,10);
     bubble.velocityX = -5;
-    bubble.addAnimation("bubblue", blueBubbleImg);
-    bubble.addAnimation("blast", blastImg);
-    bubble.changeAnimation(bubblue);
+    bubble.addImage("bubblue", blueBubbleImg);
     bubble.scale = 0.08;
     bubble.lifetime = 300;
     blueBubbleGroup.add(bubble);
@@ -83,16 +82,17 @@ function drawRedBubble(){
     redBubble.addImage("bubred", redBubbleImg);
     redBubble.scale = 0.08;
     redBubble.lifetime = 300;
-    redBubbleGroup.add(redbubble);
+    redBubbleGroup.add(redBubble);
   }
 }
 
-function handleBubbleCollision(blueBubbleGroup){
+function handleBubbleCollision(){
   if(life > 0){
     score = score + 1;
   }
-  bubble.changeAnimation(blast);
-  bubble.lifetime = 20;
+  bubbleBlast = createSprite(10, 10, 10, 10);
+  bubbleBlast.addImage("blast", blastImg);
+  bubbleBlast.lifetime = 20;
   blueBubbleGroup.destroyEach();
-  bullet.destroy();
+  bulletGroup.destroyEach();
 }
